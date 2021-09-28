@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [UserController::class, 'login'])->name('login');
+Route::post('auth/login_user', [UserController::class, 'loginUser'])->name('loginUser');
+
+Route::get('registration', [UserController::class, 'registration']);
+Route::post('auth/create_user', [UserController::class, 'createUser'])->name('createUser');
+
+Route::post('auth/logout', [UserController::class, 'logoutUser'])->name('logoutUser');
+
+Route::get('profile', [UserController::class, 'profile'])->name('profile')->middleware('auth');
+
+Route::get('admin', [UserController::class, 'userlist'])->name('userlist');
+
+Route::get('getallusers', [UserController::class, 'getAllUsers']);
+
+Route::get('searchusers/{keyword}', [UserController::class, 'searchUsers']);
+
+Route::get('verifyemail/{email}', [UserController::class, 'verifyEmail']);
